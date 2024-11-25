@@ -19,6 +19,7 @@ int main(int argc, char **argv)
 		hidTouchRead(&touch);
 		printf("\x1b[1;0HX coordinate: %i       ",touch.px);
 		printf("\x1b[2;0HY coordinate: %i       ",touch.py);
+		printf("\x1b[30;16HPress Start to exit.");
 
 		u32 kHeld = hidKeysHeld();
 
