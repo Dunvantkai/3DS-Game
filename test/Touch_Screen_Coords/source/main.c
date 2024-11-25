@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 		gfxFlushBuffers();// Flush and swap framebuffers
 		gfxSwapBuffers();
 
-		gspWaitForVBlank();//Wait for VBlank
+		gspWaitForVBlank();//Wait for next blank screen
 	}
 
 	gfxExit();
