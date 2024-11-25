@@ -18,27 +18,34 @@ int main(int argc, char **argv)
 	//the row and column where you want your cursor to move
 	//The top screen has 30 rows and 50 columns
 	//The bottom screen has 30 rows and 40 columns
-	printf("\x1b[16;20HHello World!");
+	//printf("\x1b[16;20HHello World!");
 
 	printf("\x1b[30;16HPress Start to exit.");
 
 	// Main loop
 	while (aptMainLoop())
 	{
-		//Scan all the inputs. This should be done once for each frame
-		hidScanInput();
+		hidScanInput();//Scan all the inputs. This should be done once for each frame
+		touchPosition touch;
+		hidTouchRead(&touch);
+		printf(touch.px);
+		printf(touch.py);
 
-		//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
+		u32 kHeld = hidKeysDown();//hidKeysDown returns information about which buttons have been just pressed (and they weren't in the previous frame)
+
+		if (kHeld & KEY_TOUCH) 
+			printf("/x1b[2;0HIs Active: True");
+		else
+			printf("/x1b[2;0HIs Active: False");
+
 		u32 kDown = hidKeysDown();
-
 		if (kDown & KEY_START) break; // break in order to return to hbmenu
 
-		// Flush and swap framebuffers
-		gfxFlushBuffers();
+		
+		gfxFlushBuffers();// Flush and swap framebuffers
 		gfxSwapBuffers();
 
-		//Wait for VBlank
-		gspWaitForVBlank();
+		gspWaitForVBlank();//Wait for VBlank
 	}
 
 	gfxExit();
